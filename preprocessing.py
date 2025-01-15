@@ -1,11 +1,11 @@
 from sklearn.datasets import fetch_species_distributions
 import numpy as np
 import matplotlib.pyplot as plt
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import LabelEncoder
 
 # Load the dataset
 data = fetch_species_distributions()
-
-import matplotlib.pyplot as plt
 
 # all the data
 species = data.train['species']
@@ -13,7 +13,10 @@ latitudes = data.train['dd lat']
 longitudes = data.train['dd long']
 
 # Plot only one of the 10 subgroups (for now at least) to visualize
-new_species = [name for name in set(species) if name == b'bradypus_variegatus_0' or name == b'microryzomys_minutus_0']
+new_species = [
+    name for name in set(species)
+    if name == b'bradypus_variegatus_0' or name == b'microryzomys_minutus_0'
+]
 print(new_species)
 plt.figure(figsize=(10, 6))
 for species_name in set(new_species):
@@ -28,9 +31,8 @@ plt.grid(True)
 plt.show()
 
 
-import matplotlib.pyplot as plt
-
-# Makes a map for specific coverage value that you can select and filter not given values out (-9999)
+# Makes a map for specific coverage value that you can
+# select and filter not given values out (-9999)
 layer = data.coverages[3]
 masked_layer = np.ma.masked_where(layer == -9999, layer)
 
@@ -41,12 +43,13 @@ plt.title('Environmental Feature Layer 0')
 plt.show()
 
 
-#####################
-### Preprocessing ###
-#####################
+###################
+#  Preprocessing  #
+###################
 
 """
-First, change to only use the two species examples that end with 0 (for now only maybe)
+First, change to only use the two species examples
+that end with 0 (for now only maybe)
 """
 
 species_train = data.train['species']
@@ -83,7 +86,6 @@ print(coverages[1, :, :])
 print("After:")
 print(masked_coverages[1, :, :])
 
-from sklearn.preprocessing import MinMaxScaler
 
 # scaler we use because data is not normally distributed!!
 scaler = MinMaxScaler()
@@ -112,8 +114,6 @@ for i in range(14):
 print("\nNormalized Coverages Example:")
 print(normalized_coverages[0, 500:505, 500:505])
 
-
-from sklearn.preprocessing import LabelEncoder
 
 # Encodes species as 0 or 1
 le = LabelEncoder()
