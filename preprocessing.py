@@ -46,7 +46,7 @@ plt.show()
 #####################
 
 """
-First, change only use the two species examples that end with 0 (for now only maybe)
+First, change to only use the two species examples that end with 0 (for now only maybe)
 """
 
 species_train = data.train['species']
