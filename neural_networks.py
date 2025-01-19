@@ -2,6 +2,8 @@ import numpy as np
 import tensorflow as tf
 from sklearn.utils.class_weight import compute_class_weight
 from sklearn.preprocessing import MinMaxScaler
+from sklearn.metrics import accuracy_score, precision_score
+from sklearn.metrics import recall_score, roc_auc_score
 import matplotlib.pyplot as plt
 from preprocessing import preprocess_data
 
@@ -80,8 +82,39 @@ def main() -> None:
           f"Validation Accuracy: {val_accuracy:.4f}")
     print(f"Test Loss: {test_loss:.4f}, Test Accuracy: {test_accuracy:.4f}")
 
+    # Compute additional metrics on the test set
+    compute_test_metrics(model, X_test, y_test)
+
     # Plot training history
     plot_training_history(history)
+
+
+def compute_test_metrics(model: tf.keras.Model,
+                         X_test: np.ndarray, y_test: np.ndarray) -> None:
+    """
+    Compute and display accuracy, precision, recall, and AUC on the test set.
+
+    Args:
+        model (tf.keras.Model): Trained model.
+        X_test (np.ndarray): Test features.
+        y_test (np.ndarray): True test labels.
+    """
+    # Get predictions
+    y_pred_probs = model.predict(X_test).flatten()  # Probabilities
+    y_pred = (y_pred_probs > 0.5).astype(int)  # Binary predictions
+
+    # Calculate metrics
+    accuracy = accuracy_score(y_test, y_pred)
+    precision = precision_score(y_test, y_pred)
+    recall = recall_score(y_test, y_pred)
+    auc = roc_auc_score(y_test, y_pred_probs)
+
+    # Display metrics
+    print("\nTest Metrics:")
+    print(f"Accuracy:  {accuracy:.4f}")
+    print(f"Precision: {precision:.4f}")
+    print(f"Recall:    {recall:.4f}")
+    print(f"AUC:       {auc:.4f}")
 
 
 def plot_training_history(history: tf.keras.callbacks.History) -> None:
