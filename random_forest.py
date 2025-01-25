@@ -86,7 +86,6 @@ def evaluate_rf_model(rf_model: RandomForestClassifier, X: np.ndarray, y: np.nda
 
     print(f"\n--- {set_name} Performance ---")
     print(f"Accuracy: {accuracy:.4f}")
-    print(f"Log Loss: {log_loss_value:.4f}")
     print(f"Precision: {precision:.4f}")
     print(f"Recall:    {recall:.4f}")
     print(f"ROC AUC:   {auc:.4f}")

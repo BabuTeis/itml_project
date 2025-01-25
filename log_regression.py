@@ -91,7 +91,6 @@ def evaluate_lr_model(model: LogisticRegression, X: np.ndarray, y: np.ndarray, d
 
     print(f"\n{dataset_name} Metrics:")
     print(f"Accuracy:  {accuracy:.4f}")
-    print(f"Log Loss: {log_loss_value:.4f}")
     print(f"Precision: {precision:.4f}")
     print(f"Recall:    {recall:.4f}")
     print(f"AUC:       {auc:.4f}")
