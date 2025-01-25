@@ -1,41 +1,50 @@
-from sklearn.datasets import fetch_species_distributions
 import numpy as np
 import matplotlib.pyplot as plt
+from preprocessing import preprocess_data
 
-# loads the dataset
-data = fetch_species_distributions()
+def visual_plots(number: int) -> None:
+    """
+    Generates two visual plots:
+    1. A scatter plot showing the distribution of two species (0 for bradypus_variegatus and 1 for microryzomys_minutus) in the training data.
+    2. A heatmap of an environmental feature layer, which is selected by the user.
 
-# all the data
-species = data.train['species']
-latitudes = data.train['dd lat']
-longitudes = data.train['dd long']
+    Args:
+        number (int): The index of the environmental feature layer.
+    """
+    # loads the dataset
+    preprocessed_data = preprocess_data()
 
-print(species[:5])
+    train_data = preprocessed_data["train_data"]
+    coverages = preprocessed_data["coverages"]
 
-# Plot only one of the 10 subgroups (for now at least) to visualize (the one that ends with _0)
-new_species = [name for name in set(species) if name == b'bradypus_variegatus_0' or name == b'microryzomys_minutus_0']
-print(new_species)
-plt.figure(figsize=(10, 6))
-for species_name in set(new_species):
-    mask = species == species_name
-    plt.scatter(longitudes[mask], latitudes[mask], label=species_name, s=10)
-
-plt.xlabel("Longitude")
-plt.ylabel("Latitude")
-plt.title("Species Distribution - Training Data")
-plt.legend()
-plt.grid(True)
-plt.show()
+    # Extracts species, latitudes, and longitudes from the preprocessed data
+    species = train_data["species"]
+    latitudes = train_data["dd lat"]
+    longitudes = train_data["dd long"]
 
 
-import matplotlib.pyplot as plt
+    # Plot the preprocessed data of the two species
+    new_species = [name for name in set(species) if name == 0 or name == 1]
+    plt.figure(figsize=(10, 6))
+    for species_name in set(new_species):
+        mask = species == species_name
+        plt.scatter(longitudes[mask], latitudes[mask], label=species_name, s=10)
 
-# Makes a map for specific coverage value that you can select and filter not given values out (-9999)
-layer = data.coverages[3]
-masked_layer = np.ma.masked_where(layer == -9999, layer)
+    plt.xlabel("Longitude")
+    plt.ylabel("Latitude")
+    plt.title("Species Distribution - Training Data")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
 
-plt.figure(figsize=(10, 6))
-plt.imshow(masked_layer, cmap='viridis', interpolation='nearest')
-plt.colorbar(label='Environmental Feature Value')
-plt.title('Environmental Feature Layer 0')
-plt.show()
+
+    # Make a map for specific coverage value that you can select
+    layer = number
+    masked_layer = np.ma.masked_where(coverages[layer] == -9999, coverages[layer])
+
+
+    plt.figure(figsize=(10, 6))
+    plt.imshow(masked_layer, cmap='viridis', interpolation='nearest')
+    plt.colorbar(label='Environmental Feature Value')
+    plt.title(f'Environmental Feature Layer {number}')
+    plt.show()
