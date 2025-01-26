@@ -2,6 +2,7 @@ from sklearn.datasets import fetch_species_distributions
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler, LabelEncoder
 
+
 def simplify_species_name(species: bytes) -> bytes:
     """
     Convert b'microryzomys_minutus_0' -> b'microryzomys_minutus'
@@ -15,6 +16,7 @@ def simplify_species_name(species: bytes) -> bytes:
     name_str = species.decode('utf-8')
     base_str = name_str.rsplit('_', 1)[0]
     return base_str.encode('utf-8')  # or just return base_str (string)
+
 
 def preprocess_data() -> dict:
     """
@@ -47,7 +49,6 @@ def preprocess_data() -> dict:
 
     filtered_train = species_train_simplified[train_filter]
     filtered_test = species_test_simplified[test_filter]
-
 
     # Handle missing data in coverages
 
@@ -97,7 +98,6 @@ def preprocess_data() -> dict:
         for i in range(len(filtered_test))
     ], dtype=[('species', 'int'), ('dd long', '<f4'), ('dd lat', '<f4')])
 
-
     # Split the test data into validation and test sets (50/50 split)
     num_test_samples = len(encoded_test)
     indices = np.arange(num_test_samples)
@@ -109,7 +109,6 @@ def preprocess_data() -> dict:
     # Slice the encoded_test array
     encoded_val = encoded_test[val_indices]
     encoded_test = encoded_test[final_test_indices]
-
 
     return {
         "train_data": encoded_train,

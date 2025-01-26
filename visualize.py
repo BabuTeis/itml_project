@@ -2,10 +2,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 from preprocessing import preprocess_data
 
+
 def visual_plots(number: int) -> None:
     """
     Generates two visual plots:
-    1. A scatter plot showing the distribution of two species (0 for bradypus_variegatus and 1 for microryzomys_minutus) in the training data.
+    1. A scatter plot showing the distribution of two species
+    (0 for bradypus_variegatus and 1 for microryzomys_minutus) in the training data.
     2. A heatmap of an environmental feature layer, which is selected by the user.
 
     Args:
@@ -22,7 +24,6 @@ def visual_plots(number: int) -> None:
     latitudes = train_data["dd lat"]
     longitudes = train_data["dd long"]
 
-
     # Plot the preprocessed data of the two species
     new_species = [name for name in set(species) if name == 0 or name == 1]
     plt.figure(figsize=(10, 6))
@@ -37,11 +38,9 @@ def visual_plots(number: int) -> None:
     plt.grid(True)
     plt.show()
 
-
     # Make a map for specific coverage value that you can select
     layer = number
     masked_layer = np.ma.masked_where(coverages[layer] == -9999, coverages[layer])
-
 
     plt.figure(figsize=(10, 6))
     plt.imshow(masked_layer, cmap='viridis', interpolation='nearest')

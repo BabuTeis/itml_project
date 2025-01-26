@@ -1,7 +1,7 @@
 import numpy as np
 from sklearn.linear_model import LogisticRegression
 from sklearn.utils.class_weight import compute_class_weight
-from sklearn.metrics import accuracy_score, precision_score, recall_score, roc_auc_score, log_loss
+from sklearn.metrics import accuracy_score, precision_score, recall_score, roc_auc_score
 from preprocessing import preprocess_data
 
 
@@ -84,7 +84,6 @@ def evaluate_lr_model(model: LogisticRegression, X: np.ndarray, y: np.ndarray, d
 
     # Find (and print) the metrics
     accuracy = accuracy_score(y, y_pred)
-    log_loss_value = log_loss(y, y_pred_probs)
     precision = precision_score(y, y_pred, zero_division=0)
     recall = recall_score(y, y_pred, zero_division=0)
     auc = roc_auc_score(y, y_pred_probs)

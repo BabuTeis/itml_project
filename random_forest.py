@@ -4,7 +4,7 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, roc_a
 from preprocessing import preprocess_data
 
 
-def preprocess_rf_data(shorten: bool =False) -> tuple:
+def preprocess_rf_data(shorten: bool = False) -> tuple:
     """
     Extract the features (longitude, latitude) and labels (species) from the preprocessed dataset for the model.
     We do not use a validation set because Random Forest functions without it.
@@ -92,6 +92,7 @@ def evaluate_rf_model(rf_model: RandomForestClassifier, X: np.ndarray, y: np.nda
 
     return accuracy, log_loss_value, precision, recall, auc
 
+
 def inspect_predictions(model: RandomForestClassifier, X_test: np.ndarray, y_test: np.ndarray) -> None:
     """
     Inspect predictions for a test point that the user selected.
@@ -102,7 +103,6 @@ def inspect_predictions(model: RandomForestClassifier, X_test: np.ndarray, y_tes
         y_test (np.ndarray): True test labels.
     """
     y_pred = model.predict(X_test)
-
 
     while True:
         try:
